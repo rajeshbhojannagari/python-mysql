@@ -41,6 +41,7 @@ class DatabaseConnection:
         query="CREATE TABLE IF NOT EXISTS Students (id INT PRIMARY KEY, name VARCHAR(20),age INT)"
         cur.execute(query)
         print("Table 'Student' ensured to exist")
+
     def insert_student(self,id,name,age):
           sql="INSERT INTO Students(id,name,age) VALUES (%s,%s,%s)"
           val=[id,name,age]
@@ -48,6 +49,13 @@ class DatabaseConnection:
           cur.execute(sql,val)
           self.con.commit()
           print("Inserted Successfully")
+    def insert_student1(self,id,name,age):
+        sql1=f"INSERT INTO Students(id,name,age) VALUES ({id},'{name}',{age})"
+        cur=self.con.cursor()
+        cur.execute(sql1)
+        self.con.commit()
+        print("Inserted Successfully")
+
     def show_student(self):
          sql="SELECT * FROM Students"
          cur=self.con.cursor()
@@ -55,9 +63,23 @@ class DatabaseConnection:
          rows=cur.fetchall()
          for row in rows:
             print(row)
-         
+    def del_data(self):
+        query="DELETE FROM Students WHERE name='Vikram'"
+        cur=self.con.cursor()
+        cur.execute(query)
+        self.con.commit()
+    def update_data(self):
+        query1="UPDATE Students SET name='Rohith' WHERE name='Arjun'"
+        cur=self.con.cursor()
+        cur.execute(query1)
+        self.con.commit()
+      
 db=DatabaseConnection()
 # db.insert_student(1,"Rajesh",20)
 # db.insert_student(2,"Vikram",77)
 # db.insert_student(3,"Arjun",50)
+# db.insert_student1(4,"Jay",30)
+# db.insert_student1(5,"Srikar",19)
+# db.del_data()
+db.update_data()
 db.show_student()
